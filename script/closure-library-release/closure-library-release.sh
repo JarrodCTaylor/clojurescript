@@ -189,12 +189,12 @@ else
         cd "$third_party_project_dir"
         mvn clean
         mvn -ntp -B package
-        mvn install:install-file -Dfile=./target/google-closure-library-third-party-$release_version.jar -DpomFile=pom.xml
+        mvn -B install:install-file -Dfile=./target/google-closure-library-third-party-$release_version.jar -DpomFile=pom.xml
     )
     (
         cd "$project_dir"
         mvn clean
         mvn -ntp -B package
-        mvn install:install-file -Dfile=./target/google-closure-library-$release_version.jar -DpomFile=pom.xml
+        mvn -B install:install-file -Dfile=./target/google-closure-library-$release_version.jar -DpomFile=pom.xml
     )
 fi

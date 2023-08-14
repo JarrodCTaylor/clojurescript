@@ -72,7 +72,7 @@ if [ "$HUDSON" = "true" ]; then
     git push origin "$TAG"
 else
     echo "Skipping remote deployment and Git tag because we are not on Hudson."
-    mvn $CLJS_SCRIPT_MVN_OPTS clean install
+    mvn -B $CLJS_SCRIPT_MVN_OPTS clean install
 fi
 
 rm -f src/main/cljs/cljs/core.aot.js
