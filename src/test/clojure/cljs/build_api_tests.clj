@@ -716,6 +716,8 @@
     (println (.getName f))))
 
 (println "<><><>")
+(wtf (File. "./src/test"))
+(println "*******")
 (wtf (File. "./src/test/cljs_build"))
 
 (deftest cljs-3209-trivial-output-size
