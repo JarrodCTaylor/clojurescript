@@ -21,12 +21,7 @@ fi
 
 CP_FILE=`mktemp /tmp/cljs_cp.txt.XXXXXXXXXXX`
 
-mvn -B -f pom.template.xml dependency:build-classpath -Dmdep.outputFile=$CP_FILE -Dmdep.fileSeparator=$FILE_SEP -Dmdep.pathSeparator=$PATH_SEP $CLJS_SCRIPT_MVN_OPTS
-
-echo "<>==<>"
-echo $CP_FILE
-echo $CLJS_SCRIPT_MVN_OPTS
-echo "<>==<>"
+mvn -f pom.template.xml dependency:build-classpath -Dmdep.outputFile=$CP_FILE -Dmdep.fileSeparator=$FILE_SEP -Dmdep.pathSeparator=$PATH_SEP $CLJS_SCRIPT_MVN_OPTS
 
 CLJS_CP=`cat $CP_FILE`
 
@@ -35,4 +30,5 @@ if [ "$HUDSON" = "true" ]; then
     $JAVA_HOME/bin/java -server -cp "$CLJS_CP""$PATH_SEP""src/main/clojure""$PATH_SEP""src/main/cljs" clojure.main script/aot.clj
 else
     java -server -cp "$CLJS_CP""$PATH_SEP""src/main/clojure""$PATH_SEP""src/main/cljs" clojure.main script/aot.clj
+    echo "AFTER AOT"
 fi
