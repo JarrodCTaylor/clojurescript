@@ -729,6 +729,8 @@
         cenv (env/default-compiler-env)]
     (test/delete-out-files out)
     (println "====<>====")
+    (println inputs)
+    (println (io/file inputs "trivial/core.cljs"))
     (build/build (build/inputs (io/file inputs "trivial/core.cljs")) opts cenv)
     (println "====<AFTER>====")
     (is (< (.length out-file) 10000))))
