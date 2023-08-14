@@ -716,9 +716,7 @@
     (println (.getName f))))
 
 (println "<><><>")
-(wtf (File. "./src/test"))
-(println "*******")
-(wtf (File. "./src/test/cljs_build"))
+(wtf (File. "./src/test/cljs_build/trivial"))
 
 (deftest cljs-3209-trivial-output-size
   (let [out (.getPath (io/file (test/tmp-dir) "3209-test-out"))
