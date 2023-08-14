@@ -731,6 +731,7 @@
     (println "====<>====")
     (println "Inputs: " inputs)
     (println "The file: " (io/file inputs "trivial/core.cljs"))
+    (println "The inputs: " (build/inputs (io/file inputs "trivial/core.cljs")))
     (build/build (build/inputs (io/file inputs "trivial/core.cljs")) opts cenv)
     (println "====<AFTER>====")
     (is (< (.length out-file) 10000))))
