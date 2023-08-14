@@ -716,7 +716,7 @@
     (println (.getName f))))
 
 (println "<><><>")
-(wtf (File. "./src/test"))
+(wtf (File. "./src/test/cljs_build"))
 
 (deftest cljs-3209-trivial-output-size
   (let [out (.getPath (io/file (test/tmp-dir) "3209-test-out"))
@@ -728,7 +728,9 @@
                                       :optimizations :advanced}}
         cenv (env/default-compiler-env)]
     (test/delete-out-files out)
+    (println "====<>====")
     (build/build (build/inputs (io/file inputs "trivial/core.cljs")) opts cenv)
+    (println "====<AFTER>====")
     (is (< (.length out-file) 10000))))
 
 (deftest cljs-3255-nil-inputs-build
