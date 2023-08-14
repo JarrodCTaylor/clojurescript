@@ -707,6 +707,18 @@
            (is (true? (.exists f)))
            (is (string/includes? (.getPath f) sha))))))))
 
+(defn wtf [d]
+  (println "Files in " (.getName d))
+  (doseq [f (.listFiles d)]
+    (if (.isDirectory f)
+      (print "d ")
+      (print "- "))
+    (println (.getName f))))
+
+(wtf (File. ".."))
+(println "<><><>")
+(wtf (File. "."))
+
 (deftest cljs-3209-trivial-output-size
   (let [out (.getPath (io/file (test/tmp-dir) "3209-test-out"))
         out-file (io/file out "main.js")

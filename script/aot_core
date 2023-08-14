@@ -30,5 +30,4 @@ if [ "$HUDSON" = "true" ]; then
     $JAVA_HOME/bin/java -server -cp "$CLJS_CP""$PATH_SEP""src/main/clojure""$PATH_SEP""src/main/cljs" clojure.main script/aot.clj
 else
     java -server -cp "$CLJS_CP""$PATH_SEP""src/main/clojure""$PATH_SEP""src/main/cljs" clojure.main script/aot.clj
-    echo "AFTER AOT"
 fi
