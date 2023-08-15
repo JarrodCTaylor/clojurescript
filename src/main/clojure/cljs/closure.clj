@@ -3224,14 +3224,17 @@
                                       ana/*verbose* (:verbose opts)]
                               (when (and ana/*verbose* (not (::watch-triggered-build? opts)))
                                 (util/debug-prn "Options passed to ClojureScript compiler:" (pr-str opts)))
-                              (dlet [one-file? (and (:main opts)
+                              (let [one-file? (and (:main opts)
                                                    (#{:advanced :simple :whitespace} (:optimizations opts)))
                                     source (if (or one-file?
                                                    ;; if source is nil, :main is supplied, :optimizations :none,
                                                    ;; fix up source for the user, see CLJS-3255
                                                    (and (nil? source) (:main opts) (= :none (:optimizations opts))))
-                                             (let [main (:main opts)
-                                                   uri  (:uri (cljs-source-for-namespace main))]
+                                             (dlet [main (:main opts)
+                                                    _ (println "Opts: " opts)
+                                                    _ (println "MAIN!!" main)
+                                                    uri  (:uri (cljs-source-for-namespace main))]
+                                               ;; NOTE This is where it is taking a shit
                                                (assert uri (str "No file for namespace " main " exists"))
                                                uri)
                                              ;; old compile directory behavior, or code-splitting
