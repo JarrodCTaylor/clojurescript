@@ -209,14 +209,36 @@
   [opts & sources]
   (apply closure/output-unoptimized opts sources))
 
+(defn my-build
+  "Given compiler options, produce runnable JavaScript. An optional source
+   parameter may be provided."
+  ([opts]
+   (build nil opts))
+  ([source opts]
+   (println "<>THE REAL SHIT<>")
+   (println "source: " source)
+   (println "opts: " opts)
+   (build source opts
+          (or
+            (ana-api/current-state)
+            (ana-api/empty-state
+              ;; need to dissoc :foreign-libs since we won't know what overriding
+              ;; foreign libspecs are referring to until after add-implicit-options
+              ;; - David
+              (closure/add-externs-sources (dissoc opts :foreign-libs))))))
+  ([source opts compiler-env]
+   (doseq [[unknown-opt suggested-opt] (util/unknown-opts (set (keys opts)) closure/known-opts)]
+     (when suggested-opt
+       (println (str "WARNING: Unknown compiler option '" unknown-opt "'. Did you mean '" suggested-opt "'?"))))
+   (binding [ana/*cljs-warning-handlers* (:warning-handlers opts ana/*cljs-warning-handlers*)]
+     (closure/build source opts compiler-env))))
+
 (defn build
   "Given compiler options, produce runnable JavaScript. An optional source
    parameter may be provided."
   ([opts]
    (build nil opts))
   ([source opts]
-   (println "Source: " source)
-   (println "Opts: " opts)
    (build source opts
      (or
        (ana-api/current-state)
