@@ -227,6 +227,10 @@
               ;; - David
               (closure/add-externs-sources (dissoc opts :foreign-libs))))))
   ([source opts compiler-env]
+   (println "<>THE REALY REAL SHIT<>")
+   (println "source: " source)
+   (println "opts: " opts)
+   (println "compiler-env: " compiler-env)
    (doseq [[unknown-opt suggested-opt] (util/unknown-opts (set (keys opts)) closure/known-opts)]
      (when suggested-opt
        (println (str "WARNING: Unknown compiler option '" unknown-opt "'. Did you mean '" suggested-opt "'?"))))
