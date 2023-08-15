@@ -215,6 +215,8 @@
   ([opts]
    (build nil opts))
   ([source opts]
+   (println "Source: " source)
+   (println "Opts: " opts)
    (build source opts
      (or
        (ana-api/current-state)
