@@ -3170,7 +3170,7 @@
   ([source opts compiler-env]
    (println "GOING DEEPER: " source)
    (env/with-compiler-env compiler-env
-                          (dlet [orig-opts opts
+                          (let [orig-opts opts
                                 opts (add-implicit-options opts)
                                 ;; we want to warn about NPM dep conflicts before installing the modules
                                 _ (when (:install-deps opts)
@@ -3224,7 +3224,7 @@
                                       ana/*verbose* (:verbose opts)]
                               (when (and ana/*verbose* (not (::watch-triggered-build? opts)))
                                 (util/debug-prn "Options passed to ClojureScript compiler:" (pr-str opts)))
-                              (let [one-file? (and (:main opts)
+                              (dlet [one-file? (and (:main opts)
                                                    (#{:advanced :simple :whitespace} (:optimizations opts)))
                                     source (if (or one-file?
                                                    ;; if source is nil, :main is supplied, :optimizations :none,
