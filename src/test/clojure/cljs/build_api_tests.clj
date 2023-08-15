@@ -732,6 +732,8 @@
     (println "Inputs: " inputs)
     (println "The file: " (io/file inputs "trivial/core.cljs"))
     (println "The inputs: " (build/inputs (io/file inputs "trivial/core.cljs")))
+    (println "opts: " opts)
+    (println "cenv: " cenv)
     (println "The fuck: " (build/my-build (build/inputs (io/file inputs "trivial/core.cljs")) opts cenv))
     (build/my-build (build/inputs (io/file inputs "trivial/core.cljs")) opts cenv)
     (println "====<AFTER>====")
