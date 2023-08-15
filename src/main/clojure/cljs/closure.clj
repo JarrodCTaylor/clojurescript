@@ -872,6 +872,25 @@
           (if-let [res (io/resource relpath)]
             {:relative-path relpath :uri res :ext :cljc}))))))
 
+(defn my-cljs-source-for-namespace
+  "Given a namespace return the corresponding source with either a .cljs or
+  .cljc extension."
+  [ns]
+  (println "==__<>__==")
+  (println "NS: " ns)
+  (if (= "cljs.core$macros" (str ns))
+    (let [relpath "cljs/core.cljc"]
+      {:relative-path relpath :uri (io/resource relpath) :ext :cljc})
+    (let [path    (-> (munge ns) (string/replace \. \/))
+          relpath (str path ".cljs")]
+      (println "Path: " path)
+      (println "Relpath: " relpath)
+      (if-let [res (io/resource relpath)]
+        {:relative-path relpath :uri res :ext :cljs}
+        (let [relpath (str path ".cljc")]
+          (if-let [res (io/resource relpath)]
+            {:relative-path relpath :uri res :ext :cljc}))))))
+
 (defn source-for-namespace
   "Given a namespace and compilation environment return the relative path and
   uri of the corresponding source regardless of the source language extension:
@@ -3224,14 +3243,20 @@
                                       ana/*verbose* (:verbose opts)]
                               (when (and ana/*verbose* (not (::watch-triggered-build? opts)))
                                 (util/debug-prn "Options passed to ClojureScript compiler:" (pr-str opts)))
+                              (println "==<>==<>==")
+                              (println "HERE WE ARE")
                               (let [one-file? (and (:main opts)
                                                    (#{:advanced :simple :whitespace} (:optimizations opts)))
+                                    _ (println "One file? " one-file?)
                                     source (if (or one-file?
                                                    ;; if source is nil, :main is supplied, :optimizations :none,
                                                    ;; fix up source for the user, see CLJS-3255
                                                    (and (nil? source) (:main opts) (= :none (:optimizations opts))))
-                                             (dlet [main (:main opts)
-                                                    uri  (:uri (cljs-source-for-namespace main))]
+                                             (let [main (:main opts)
+                                                   _ (println "MAIN!! " main)
+                                                    uri  (:uri (my-cljs-source-for-namespace main))]
+                                               (println "UIR<<<<")
+                                               (println uri)
                                                ;; NOTE This is where it is taking a shit
                                                (assert uri (str "No file for namespace " main " exists"))
                                                uri)
