@@ -3142,6 +3142,17 @@
              (when (bundle? opts) (run-bundle-cmd opts))
              ret))))))
 
+(defmacro dlet
+  [bindings & body]
+  `(let [~@(mapcat (fn [[n v]]
+                     (if (or (vector? n) (map? n))
+                       [n v]
+                       [n v '_ `(do
+                                  (println (str "<< " (name '~n) " >>"))
+                                  (clojure.pprint/pprint ~v))]))
+                   (partition 2 bindings))]
+     ~@body))
+
 (defn mine-again-build
   "Given compiler options, produce runnable JavaScript. An optional source
    parameter may be provided."
@@ -3159,7 +3170,7 @@
   ([source opts compiler-env]
    (println "GOING DEEPER: " source)
    (env/with-compiler-env compiler-env
-                          (let [orig-opts opts
+                          (dlet [orig-opts opts
                                 opts (add-implicit-options opts)
                                 ;; we want to warn about NPM dep conflicts before installing the modules
                                 _ (when (:install-deps opts)
