@@ -3231,8 +3231,6 @@
                                                    ;; fix up source for the user, see CLJS-3255
                                                    (and (nil? source) (:main opts) (= :none (:optimizations opts))))
                                              (dlet [main (:main opts)
-                                                    _ (println "Opts: " opts)
-                                                    _ (println "MAIN!!" main)
                                                     uri  (:uri (cljs-source-for-namespace main))]
                                                ;; NOTE This is where it is taking a shit
                                                (assert uri (str "No file for namespace " main " exists"))
