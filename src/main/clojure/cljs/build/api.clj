@@ -213,12 +213,12 @@
   "Given compiler options, produce runnable JavaScript. An optional source
    parameter may be provided."
   ([opts]
-   (build nil opts))
+   (my-build nil opts))
   ([source opts]
    (println "<>THE REAL SHIT<>")
    (println "source: " source)
    (println "opts: " opts)
-   (build source opts
+   (my-build source opts
           (or
             (ana-api/current-state)
             (ana-api/empty-state
